@@ -5,11 +5,15 @@ const openai = new OpenAIApi(configuration);
 
 const generateImage = async (req, res) => {
   try {
+    const { prompt, size } = req.body;
+
+    const imageSize = size === 'small' ? '256x256' : size === 'medium' ? '512x512' : '1024x1024';
+
     console.log('Getting image...');
     const response = await openai.createImage({
-      prompt: 'Polar bear',
+      prompt: prompt,
       n: 1,
-      size: '512x512',
+      size: imageSize,
     });
     console.log('Done!');
 
