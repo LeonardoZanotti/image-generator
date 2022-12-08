@@ -1,2 +1,3 @@
-# image-generator
+# Image generator
+
 AI Image Generator With OpenAI &amp; Node.js
