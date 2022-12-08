@@ -1,5 +1,11 @@
+var imageUrl;
+
 function onSubmit(e) {
   e.preventDefault();
+
+  document.querySelector('.msg').textContent = '';
+  document.querySelector('#image').src = '';
+  document.querySelector('.btn-download').disabled = true;
 
   const prompt = document.querySelector('#prompt').value;
   const size = document.querySelector('#size').value;
@@ -10,6 +16,15 @@ function onSubmit(e) {
   }
 
   generateImageRequest(prompt, size);
+}
+
+function download() {
+  const a = document.createElement('button');
+  a.href = imageUrl;
+  a.download = imageUrl.split('/').pop() + 'jpg';
+  document.body.appendChild(a);
+  a.click();
+  document.body.removeChild(a);
 }
 
 async function generateImageRequest(prompt, size) {
@@ -34,6 +49,13 @@ async function generateImageRequest(prompt, size) {
 
     const data = await response.json();
     console.log(data);
+
+    imageUrl = data.data;
+
+    document.querySelector('#image').src = imageUrl;
+    document.querySelector('#img-download').href = imageUrl;
+    document.querySelector('.btn-download').disabled = false;
+
     toggleSpinner();
   } catch (error) {
     document.querySelector('.msg').textContent = error;
